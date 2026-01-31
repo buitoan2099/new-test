@@ -1,0 +1,57 @@
+// Number Input
+.custom-input-number {
+  .ant-input-number-input {
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+  }
+}
+
+/ Notification
+.ant-notification-notice-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+// Checkbox
+.custom-checkbox {
+  .ant-checkbox-label {
+    flex: 1 1 0%;
+  }
+}
+
+// Date picker
+@media (max-width: 648px) {
+  .ant-picker-panels {
+    position: relative;
+    > *:last-child {
+      .ant-picker-date-panel {
+        width: auto;
+      }
+      .ant-picker-week-panel {
+        width: auto;
+      }
+      .ant-picker-month-panel {
+        width: auto;
+      }
+      .ant-picker-quarter-panel {
+        width: auto;
+      }
+      .ant-picker-year-panel {
+        width: auto;
+      }
+      .ant-picker-header-view,
+      .ant-picker-body {
+        display: none;
+      }
+      .ant-picker-header {
+        border: none;
+        position: absolute;
+        right: 0;
+        height: 40px;
+      }
+    }
+  }
+}
