@@ -61,7 +61,7 @@ jobs:
 
     strategy:
       matrix:
-        mini-app-id: ["4402014933890142761"]
+        mini-app-id: ["4295164127510971931"]
 
     steps:
       - uses: actions/checkout@v3
