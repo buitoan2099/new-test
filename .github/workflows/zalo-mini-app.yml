@@ -29,7 +29,7 @@ jobs:
           GITLEAKS_CONFIG: .gitleaks.toml
 
   refresh_token:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'push'}}
+    if: ${{ github.event_name == 'schedule'}}
     runs-on: ubuntu-latest
 
     steps:
@@ -72,7 +72,7 @@ jobs:
           cache: "npm"
       - run: npm install
       - run: npm install -g zmp-cli
-      - run: npx zmp-developer-token deploy ${{ matrix.mini-app-id }} -ptm "$(git log -1 --pretty=%B)"
+      - run: npx zmp-developer-token deploy ${{ matrix.mini-app-id }} 
         env:
           NEW_ACCESS_TOKEN: ${{ secrets.ZALO_ACCESS_TOKEN }}
       - name: Report
