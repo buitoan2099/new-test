@@ -5,20 +5,29 @@ name: Zalo Mini App
 run-name: ${{ github.event_name == 'schedule' && '✨ Refresh token' || '🚀 Deploy' }}
 
 concurrency: zalo-mini-app
-
 on:
   push:
-    branches:
-      - main
-      - "feat/**"
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
-      - "feat/**"
+    branches: [ "main" ]
   schedule:
     - cron: "0 0 * * *"
-
+    
 jobs:
+  gitleaks:
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0   # cần full history để gitleaks quét được toàn bộ commit trong PR/push
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
   refresh_token:
     if: ${{ github.event_name == 'schedule' }}
     runs-on: ubuntu-latest
@@ -44,14 +53,15 @@ jobs:
       - name: Report
         run: |
           echo "### Token renewal success! :sparkles:" >> $GITHUB_STEP_SUMMARY
-
+          
   deploy:
     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+    needs: gitleaks
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        mini-app-id: ["194839900003483517"]
+        mini-app-id: ["4402014933890142761"]
 
     steps:
       - uses: actions/checkout@v3
@@ -68,5 +78,5 @@ jobs:
       - name: Report
         run: |
           echo "### Deployment success! :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-          echo "View your deployment result: [Version Management](https://mini.zalo.me/miniapp/${{ matrix.mini-app-id }}/versions/list)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View your deployment result: [Version Management](https://mini.zalo.me/miniapp/${{ matrix.mini-app-id }}/versions)" >> $GITHUB_STEP_SUMMARY
