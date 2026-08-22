@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AppContext, useResumed } from "../context/AppContext";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import { Box } from "zmp-ui";
 import { createPortal } from "react-dom";
 import { getUserID, nativeStorage } from "zmp-sdk";
@@ -10,7 +10,7 @@ import LockIcon from "../static/icons/lock-icon.png";
 import { ToastContainer } from "react-toastify";
 import { handleApiError } from "../utils/handleError";
 import { notify } from "./notification/notify";
-import { Navigation } from "../pages/navigation";
+import { Navigation } from "../pages/Navigation";
 
 const CODE_APP = import.meta.env.VITE_CODE_APP || "";
 const MODE = import.meta.env.MODE || "";
@@ -105,6 +105,7 @@ export const Layout = () => {
 
   return (
     <Box flex flexDirection="column" className="h-screen">
+      <ScrollRestoration />
       {createPortal(
         <ModalLockScreen isOpen={isOpenLockScreen} />,
         document.body,

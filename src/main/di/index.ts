@@ -3,12 +3,12 @@ import UseCases from "./UseCases";
 
 const cRepositories = Repositories();
 
-const cUseCase = UseCases(cRepositories.ZaloRepositoryImpl);
+const cUseCase = UseCases("zalo", cRepositories.ZaloRepositoryImpl);
 
 export default {
-  FollowOaUseCase: cUseCase.FollowOaUseCase,
-  AuthorizePhoneNameAndFollowOaUseCase:
-    cUseCase.AuthorizePhoneNameAndFollowOaUseCase,
-  AuthorizePhoneNameUseCase: cUseCase.AuthorizePhoneNameUseCase,
-  GetLocationUseCase: cUseCase.GetLocationUseCase,
+  followOaUseCase: cUseCase.followOa,
+  authorizePhoneNameAndFollowOaUseCase: cUseCase.authorizePhoneNameAndFollowOa,
+  authorizePhoneNameUseCase: cUseCase.authorizePhone,
+  getLocationUseCase: cUseCase.getLocation,
+  changeAvatarUseCase: cUseCase.changeAvatar,
 };

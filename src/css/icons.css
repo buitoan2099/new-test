@@ -60,3 +60,10 @@
   font-feature-settings: "liga";
   text-align: center;
 }
+
+.custom-sheet .zmp-sheet-overlay {
+  background: red !important;
+}
+.custom-sheet1 .zmp-sheet-backdrop {
+  background: transparent !important;
+}

@@ -3,6 +3,7 @@ import { UserInfo } from "../../../../core/entities/User";
 import { handleLogInEvent } from "../events/LogInOutEvents";
 import { LocationData } from "../../../../core/entities/Zalo";
 import { followOaEvent } from "../events/UpdateZaloInfoEvents";
+import { chooseImageEvent, uploadAvatar } from "../events/UpdateImageEvents";
 
 let initUser = {};
 
@@ -12,6 +13,8 @@ export interface AuthState {
   user: UserInfo;
   message: string | null;
   location: LocationData;
+  tempSelectedImagePath: string | undefined;
+  avatarUrl: string | undefined;
 }
 
 const initialState: AuthState = {
@@ -20,12 +23,22 @@ const initialState: AuthState = {
   isLoggedIn: false,
   message: null,
   location: {} as LocationData,
+  tempSelectedImagePath: undefined,
+  avatarUrl:
+    "https://thichtrangtri.com/wp-content/uploads/2025/05/anh-meo-gian-cute-3.jpg",
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setAvatarUrl: (state, action) => {
+      state.avatarUrl = action.payload;
+    },
+    clearTempSelectedImage: (state) => {
+      state.tempSelectedImagePath = undefined;
+    },
+  },
   extraReducers: (builder) => {
     //login
     builder
@@ -62,8 +75,37 @@ const authSlice = createSlice({
         // state.message = action.payload as string;
         state.message = "Follow OA failed";
       });
+    //image
+    builder
+      // Xử lý khi bắt đầu chọn ảnh
+      .addCase(chooseImageEvent.pending, (state) => {
+        // state.error = null;
+      })
+      .addCase(chooseImageEvent.fulfilled, (state, action) => {
+        state.tempSelectedImagePath = action.payload; // Lưu đường dẫn ảnh tạm
+      })
+      .addCase(chooseImageEvent.rejected, (state, action) => {
+        // state.error = action.payload;
+      })
+
+      // Xử lý khi bắt đầu upload
+      .addCase(uploadAvatar.pending, (state) => {
+        state.isLoading = true;
+        // state.error = null;
+      })
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.avatarUrl = !action.payload
+          ? state.tempSelectedImagePath
+          : action.payload; // Cập nhật URL avatar chính thức
+        state.tempSelectedImagePath = undefined; // Xóa ảnh tạm sau khi upload
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
+        state.isLoading = false;
+        // state.error = action.payload;
+      });
   },
 });
 
-export const {} = authSlice.actions;
+export const { setAvatarUrl, clearTempSelectedImage } = authSlice.actions;
 export default authSlice.reducer;

@@ -7,9 +7,9 @@ export const handleLogInEvent = createAsyncThunk(
   "auth/login",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await di.AuthorizePhoneNameAndFollowOaUseCase.execute();
+      const response = await di.authorizePhoneNameAndFollowOaUseCase.execute();
       console.log(response);
-      const location = await di.GetLocationUseCase.execute();
+      const location = await di.getLocationUseCase.execute();
       console.log(location);
       return {
         user: response,

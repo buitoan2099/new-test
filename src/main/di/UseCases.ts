@@ -1,3 +1,4 @@
+import { ChangeAvatarUseCase } from "../core/usecases/UpdateImageUseCase";
 import IZaloRepo from "../core/repositories/IZaloRepo";
 import {
   AuthorizePhoneNameAndFollowOaUseCase,
@@ -6,13 +7,23 @@ import {
   GetLocationUseCase,
 } from "../core/usecases/ZaloUseCase";
 
-export default (zaloRepo: IZaloRepo) => {
-  return {
-    //zalo
-    FollowOaUseCase: new FollowOaUseCase(zaloRepo),
-    AuthorizePhoneNameAndFollowOaUseCase:
-      new AuthorizePhoneNameAndFollowOaUseCase(zaloRepo),
-    AuthorizePhoneNameUseCase: new AuthorizePhoneNameUseCase(zaloRepo),
-    GetLocationUseCase: new GetLocationUseCase(zaloRepo),
-  };
+type UseCaseType = "zalo" | "user";
+
+export default (type: UseCaseType, repo: IZaloRepo) => {
+  switch (type) {
+    case "zalo":
+      const zaloRepo = repo as IZaloRepo;
+      return {
+        followOa: new FollowOaUseCase(zaloRepo),
+        authorizePhoneNameAndFollowOa: new AuthorizePhoneNameAndFollowOaUseCase(
+          zaloRepo,
+        ),
+        authorizePhone: new AuthorizePhoneNameUseCase(zaloRepo),
+        getLocation: new GetLocationUseCase(zaloRepo),
+        changeAvatar: new ChangeAvatarUseCase(),
+      };
+
+    default:
+      throw new Error("Unknown UseCase type");
+  }
 };

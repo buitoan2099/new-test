@@ -7,7 +7,7 @@ export const followOaEvent = createAsyncThunk(
   "profile/followOa",
   async (_, { rejectWithValue }) => {
     try {
-      await di.FollowOaUseCase.execute();
+      await di.followOaUseCase.execute();
       return {
         success: true,
         message: "Followed OA successfully",

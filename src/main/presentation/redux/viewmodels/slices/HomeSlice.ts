@@ -1,18 +1,19 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "../../../../core/entities/Product";
 import { getProductsEvents } from "../events/GetProductsEvents";
 import { Cart } from "../../../../core/entities/Cart";
-import { calcFinalPrice } from "../../../../presentation/utils/product";
 import { UpdateCartEvents } from "../events/UpdateCartEvents";
 
 export interface HomeState {
   cart: Cart;
   isLoading: boolean;
+  initialized: boolean;
 }
 
 const initialState: HomeState = {
   cart: [],
   isLoading: false,
+  initialized: false,
 };
 
 const homeSlice = createSlice({
@@ -29,7 +30,9 @@ const homeSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getProductsEvents.fulfilled, (state, action) => {
+        if (state.initialized) return;
         state.isLoading = false;
+        state.initialized = true;
         state.cart = (action.payload as Product[]).map((product) => ({
           product,
           quantity: 0,

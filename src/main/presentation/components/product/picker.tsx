@@ -17,12 +17,14 @@ export interface ProductPickerProps {
     quantity: number;
   };
   children: (methods: { open: () => void; close: () => void }) => ReactNode;
+  isViewOnly?: boolean;
 }
 
 export const ProductPicker: FC<ProductPickerProps> = ({
   children,
   product,
   selected,
+  isViewOnly,
 }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
@@ -54,7 +56,12 @@ export const ProductPicker: FC<ProductPickerProps> = ({
         close: () => setVisible(false),
       })}
       {createPortal(
-        <Sheet visible={visible} onClose={() => setVisible(false)} autoHeight>
+        <Sheet
+          visible={visible}
+          onClose={() => setVisible(false)}
+          autoHeight
+          className="custom-sheet1"
+        >
           {product && (
             <Box className="space-y-6 mt-2" p={4}>
               <Box className="space-y-2">
@@ -77,13 +84,15 @@ export const ProductPicker: FC<ProductPickerProps> = ({
                   ></div>
                 </Text>
               </Box>
-              <Box className="space-y-5">
-                <QuantityPicker
-                  value={selected?.quantity ?? 0}
-                  onChange={changeQty}
-                  addToCart={addToCart}
-                />
-              </Box>
+              {!isViewOnly && (
+                <Box className="space-y-5">
+                  <QuantityPicker
+                    value={selected?.quantity ?? 0}
+                    onChange={changeQty}
+                    addToCart={addToCart}
+                  />
+                </Box>
+              )}
             </Box>
           )}
         </Sheet>,

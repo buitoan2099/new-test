@@ -14,7 +14,7 @@ export const CartPreview: FC = () => {
   return (
     <Box
       flex
-      className="sticky bottom-0 bg-background p-4 space-x-4 border-t border-gray-200"
+      className="sticky top-0 bottom-0 bg-background p-4 space-x-4 border-t border-gray-200"
     >
       <Box
         flex

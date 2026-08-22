@@ -24,6 +24,9 @@ import { Layout } from "./presentation/components/layout";
 import { EmptyLayout } from "./presentation/components/empty-layout";
 import ErrorPage from "./presentation/pages/ErrorPage";
 import ProfilePage from "./presentation/pages/ProfilePage";
+import ProfileInfoPage from "./presentation/pages/ProfileInfoPage";
+import NotificationPage from "./presentation/pages/NotificationPage";
+import SearchPage from "./presentation/pages/SearchPage";
 
 const router = createBrowserRouter(
   [
@@ -36,6 +39,14 @@ const router = createBrowserRouter(
           // path: "/login",
           element: <LoginPage />,
         },
+        {
+          path: "/profile/info",
+          element: <ProfileInfoPage />,
+        },
+        {
+          path: "/search",
+          element: <SearchPage />,
+        },
       ],
     },
     {
@@ -47,6 +58,10 @@ const router = createBrowserRouter(
         {
           path: "home",
           element: <HomePage />,
+        },
+        {
+          path: "notification",
+          element: <NotificationPage />,
         },
         {
           path: "profile",

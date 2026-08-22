@@ -9,18 +9,27 @@ import {
 import { UserInfo } from "../../core/entities/User";
 import { LocationData } from "../../core/entities/Zalo";
 import { followOaEvent } from "../redux/viewmodels/events/UpdateZaloInfoEvents";
-import { c } from "vite/dist/node/types.d-aGj9QkWt";
+import { useNavigate } from "react-router-dom";
 
 const Personal: FC = () => {
+  const navigate = useNavigate();
+
   const onClick = useToBeImplemented();
 
   return (
     <Box className="m-4">
       <ListRenderer
         title="Cá nhân"
-        onClick={onClick}
+        onClick={(item) => {
+          if (item.id === "user") {
+            navigate("/profile/info");
+          } else {
+            onClick();
+          }
+        }}
         items={[
           {
+            id: "user",
             left: <Icon icon="zi-user" />,
             right: (
               <Box flex>
