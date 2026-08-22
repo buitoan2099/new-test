@@ -27,7 +27,6 @@ export class AuthorizePhoneNameAndFollowOaUseCase {
 
     let userInfo = await this.zaloRepo.getUserInfo();
     const phoneInfo = await this.zaloRepo.getPhone();
-    console.log("0");
     console.log(!userInfo?.followedOA);
 
     // if (!userInfo?.followedOA) {
