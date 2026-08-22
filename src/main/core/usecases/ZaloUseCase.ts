@@ -38,7 +38,7 @@ export class AuthorizePhoneNameAndFollowOaUseCase {
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Sau 1 giây");
+    console.log("Sau 01 giây");
 
     return {
       phone: phoneInfo?.phone,
